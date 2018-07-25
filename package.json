@@ -1,0 +1,10 @@
+{
+    "name": "algodat-scripts",
+    "devDependencies": {
+        "jest": "^23.4.1"
+    },
+    "scripts": {
+        "test": "jest",
+        "test:watch": "jest --watch"
+    }
+}
