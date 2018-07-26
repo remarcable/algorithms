@@ -44,35 +44,107 @@ export class ArrayList {
     }
 
     delete(pos) {
-        if (pos > this.arr.length -1 || pos < 0) {
+        if (pos > this.arr.length - 1 || pos < 0) {
             return false;
         }
 
         if (pos === this.arr.length - 1) {
             this.arr.pop();
         } else {
-            this.arr = [
-                ...this.arr.slice(0, pos),
-                ...this.arr.slice(pos + 1, this.arr.length),
-            ];
+            this.arr = [...this.arr.slice(0, pos), ...this.arr.slice(pos + 1, this.arr.length)];
         }
 
         return true;
     }
 }
 
-export class LinkedList {
-    constructor() {}
-    insert(pos, element) {}
-    elementAt(pos) {}
-    search(element) {}
-    delete(pos) {}
+class Element {
+    constructor(value, next, previous) {
+        this.value = value;
+        this.previous = null;
+        this.next = null;
+    }
 }
 
-export class DoublyLinkedList {
-    constructor() {}
-    insert(pos, element) {}
-    elementAt(pos) {}
-    search(element) {}
-    delete(pos) {}
+export class LinkedList {
+    constructor() {
+        this.first = null;
+        this.last = null;
+        this.length = 0; // 0-based
+    }
+
+    insert(pos, element) {
+        const el = new Element(element);
+        this.length += 1;
+        if (pos === 0 || this.first === null) {
+            const first = this.first;
+            this.first = el;
+            el.next = first;
+        } else {
+            const previousElement = this.elementObjectAt(pos - 1);
+            const nextElement = previousElement.next;
+            previousElement.next = el;
+            el.next = nextElement;
+        }
+
+        if (el.next === null) {
+            this.last = el;
+        }
+
+        return true;
+    }
+
+    elementObjectAt(pos) {
+        let count = 0;
+        let element = this.first;
+        while (count < this.length && element !== null) {
+            if (count === pos) {
+                return element;
+            }
+
+            element = element.next;
+            count += 1;
+        }
+
+        return null;
+    }
+
+    elementAt(pos) {
+        const { value } = this.elementObjectAt(pos) || {};
+        return value || -1;
+    }
+
+    search(element) {
+        let current = this.first;
+        for (let i = 0; i < this.length; i++) {
+            if (current.value === element) {
+                return i;
+            }
+            current = current.next;
+        }
+
+        return -1;
+    }
+
+    delete(pos) {
+        if (pos > this.length - 1 || pos < 0) {
+            return false;
+        }
+
+        if (pos === 0) {
+            this.first = this.first.next;
+        } else {
+            const previousElement = this.elementObjectAt(pos - 1);
+            const toBeDeleted = previousElement.next;
+            const nextElement = toBeDeleted.next;
+            previousElement.next = nextElement;
+
+            if (nextElement === null) {
+                this.last = previousElement;
+            }
+        }
+
+        this.length -= 1;
+        return true;
+    }
 }

@@ -1,8 +1,7 @@
-import { ArrayList, LinkedList, DoublyLinkedList } from './lists.js';
+import { ArrayList, LinkedList } from './lists.js';
 
 createTestcasesForFunction(ArrayList, 'ArrayList');
-// createTestcasesForFunction(LinkedList, 'LinkedList');
-// createTestcasesForFunction(DoublyLinkedList, 'DoublyLinkedList');
+createTestcasesForFunction(LinkedList, 'LinkedList');
 
 function createTestcasesForFunction(List, name) {
     describe(`Lists - ${name}`, () => {
@@ -44,13 +43,21 @@ function createTestcasesForFunction(List, name) {
         });
 
         describe('elementAt(pos) => element', () => {
-            it('returns an inserted element at the pos', () => {
+            it('returns an element at the pos', () => {
                 const list = new List();
                 list.insert(0, ELEMENT);
                 expect(list.elementAt(0)).toBe(ELEMENT);
             });
 
-            it('returns -1 if no pos is out of bound', () => {
+            it('returns an element (one of multiple) at the pos', () => {
+                const list = new List();
+                list.insert(0, ELEMENT0);
+                list.insert(1, ELEMENT1);
+                list.insert(2, ELEMENT2);
+                expect(list.elementAt(1)).toBe(ELEMENT1);
+            });
+
+            it('returns -1 if pos is out of bound', () => {
                 const list = new List();
                 expect(list.elementAt(0)).toBe(-1);
                 expect(list.elementAt(-5)).toBe(-1);
@@ -58,9 +65,9 @@ function createTestcasesForFunction(List, name) {
         });
 
         describe('insert(pos, element) => true', () => {
-            it('inserts without throwing', () => {
+            it('does not throw', () => {
                 const list = new List();
-                expect(() => list.insert(ELEMENT)).not.toThrow();
+                expect(() => list.insert(0, ELEMENT)).not.toThrow();
             });
 
             it('inserts the first element', () => {
@@ -86,6 +93,19 @@ function createTestcasesForFunction(List, name) {
                 expect(list.elementAt(1)).toBe(ELEMENT1);
                 expect(list.elementAt(2)).toBe(ELEMENT2);
                 expect(list.elementAt(3)).toBe(ELEMENT3);
+            });
+
+            it('inserts between elements', () => {
+                const list = new List();
+                list.insert(0, ELEMENT0); // 0
+                list.insert(1, ELEMENT1); // 2
+                list.insert(2, ELEMENT2); // 3
+                list.insert(1, ELEMENT3); // 1
+
+                expect(list.elementAt(0)).toBe(ELEMENT0);
+                expect(list.elementAt(1)).toBe(ELEMENT3);
+                expect(list.elementAt(2)).toBe(ELEMENT1);
+                expect(list.elementAt(3)).toBe(ELEMENT2);
             });
 
             it('inserts multiple elements using always the same pos', () => {
