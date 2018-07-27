@@ -11,5 +11,6 @@
     "scripts": {
         "test": "jest",
         "test:watch": "jest --watch"
-    }
+    },
+    "license": "MIT"
 }
