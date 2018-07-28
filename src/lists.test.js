@@ -57,6 +57,12 @@ function createTestcasesForFunction(List, name) {
                 expect(list.elementAt(1)).toBe(ELEMENT1);
             });
 
+            it('returns the correct element when element is 0', () => {
+                const list = new List();
+                list.insert(0, 0);
+                expect(list.elementAt(0)).toBe(0);
+            });
+
             it('returns -1 if pos is out of bound', () => {
                 const list = new List();
                 expect(list.elementAt(0)).toBe(-1);

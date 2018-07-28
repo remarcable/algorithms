@@ -111,7 +111,7 @@ export class LinkedList {
 
     elementAt(pos) {
         const { value } = this.elementObjectAt(pos) || {};
-        return value || -1;
+        return value !== undefined ? value : -1;
     }
 
     search(element) {
